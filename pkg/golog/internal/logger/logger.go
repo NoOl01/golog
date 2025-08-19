@@ -2,65 +2,27 @@ package logger
 
 import (
 	"fmt"
+	"github.com/NoOl01/golog/pkg/golog/golog_config"
 	"runtime"
+	"time"
 )
 
 type Logger struct{}
 
-const (
-	INFO    string = "INFO"
-	DEBUG   string = "DEBUG"
-	WARNING string = "WARNING"
-	ERROR   string = "ERROR"
-	PANIC   string = "PANIC"
-)
-
-func (l *Logger) Info(msg string) {
-	_, file, line, ok := runtime.Caller(1)
+func Log(msg string, level golog_config.LogLevel) {
+	_, file, line, ok := runtime.Caller(2)
 	if !ok {
 		fmt.Println("runtime.Caller() failed")
 		return
 	}
 
-	Log(msg, INFO, file, line)
+	timestamp := time.Now().Format("2006-01-2 15:04:05")
+
+	fmt.Printf("%s | \033[38;2;255;255;255m%-7d\033[0m | %-7s | %s %d\n", timestamp, level, msg, file, line)
 }
 
-func (l *Logger) Debug(msg string) {
-	_, file, line, ok := runtime.Caller(1)
-	if !ok {
-		fmt.Println("runtime.Caller() failed")
-		return
-	}
-
-	Log(msg, DEBUG, file, line)
-}
-
-func (l *Logger) Warn(msg string) {
-	_, file, line, ok := runtime.Caller(1)
-	if !ok {
-		fmt.Println("runtime.Caller() failed")
-		return
-	}
-
-	Log(msg, WARNING, file, line)
-}
-
-func (l *Logger) Error(msg string) {
-	_, file, line, ok := runtime.Caller(1)
-	if !ok {
-		fmt.Println("runtime.Caller() failed")
-		return
-	}
-
-	Log(msg, ERROR, file, line)
-}
-
-func (l *Logger) Panic(msg string) {
-	_, file, line, ok := runtime.Caller(1)
-	if !ok {
-		fmt.Println("runtime.Caller() failed")
-		return
-	}
-
-	Log(msg, PANIC, file, line)
-}
+func (l *Logger) Info(msg string)  { Log(msg, golog_config.INFO) }
+func (l *Logger) Debug(msg string) { Log(msg, golog_config.DEBUG) }
+func (l *Logger) Warn(msg string)  { Log(msg, golog_config.WARNING) }
+func (l *Logger) Error(msg string) { Log(msg, golog_config.ERROR) }
+func (l *Logger) Panic(msg string) { Log(msg, golog_config.PANIC) }
