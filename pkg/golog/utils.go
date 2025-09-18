@@ -10,10 +10,20 @@ type DefaultLogger interface {
 	Panic(msg string)
 }
 
+type LogWithBuff interface {
+	InfoB(msg string)
+	DebugB(msg string)
+	WarnB(msg string)
+	ErrorB(msg string)
+	PanicB(msg string)
+}
+
 type config struct {
 	Default DefaultLogger
+	Buff    LogWithBuff
 }
 
 var Config = config{
 	Default: &logger.Logger{},
+	Buff:    &logger.Buff{},
 }
