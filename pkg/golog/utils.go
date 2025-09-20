@@ -1,6 +1,10 @@
 package golog
 
-import "github.com/NoOl01/golog/pkg/golog/internal/logger"
+import (
+	"fmt"
+	"github.com/NoOl01/golog/pkg/golog/internal/format"
+	"github.com/NoOl01/golog/pkg/golog/internal/logger"
+)
 
 type DefaultLogger interface {
 	Info(msg string)
@@ -18,12 +22,31 @@ type LogWithBuff interface {
 	PanicB(msg string)
 }
 
-type config struct {
+type loggerConfig struct {
 	Default DefaultLogger
 	Buff    LogWithBuff
 }
 
-var Config = config{
+var config = loggerConfig{
 	Default: &logger.Logger{},
 	Buff:    &logger.Buff{},
+}
+
+func Start() DefaultLogger {
+
+	return config.Default
+}
+
+func StartBuff() LogWithBuff {
+	return config.Buff
+}
+
+func Test(text string) {
+	var form format.LogFormat
+	if err := format.Format(text, &form); err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+
+	fmt.Println(form)
 }

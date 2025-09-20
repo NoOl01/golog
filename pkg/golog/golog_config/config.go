@@ -33,7 +33,7 @@ var (
 	Orange = Color{255, 165, 0}
 )
 
-var (
+const (
 	FTimestamp  = "$timestamp"
 	FColor      = "$color"
 	FName       = "$name"

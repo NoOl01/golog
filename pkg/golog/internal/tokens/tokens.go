@@ -1,9 +1,17 @@
 package tokens
 
+type TokenType int
+
 const (
-	Name = iota
-	Content
-	TimeStamp
-	Color
-	Caller
+	TokenName TokenType = iota
+	TokenContent
+	TokenLevel
+	TokenTimestamp
+	TokenCaller
+	TokenLiteral
 )
+
+type Token struct {
+	Type  TokenType
+	Value []byte
+}
