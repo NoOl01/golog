@@ -3,6 +3,8 @@ package format
 import (
 	"errors"
 	"fmt"
+	"github.com/NoOl01/golog/pkg/golog/golog_config"
+	"github.com/NoOl01/golog/pkg/golog/golog_errs"
 	"github.com/NoOl01/golog/pkg/golog/internal/tokens"
 	"regexp"
 	"runtime"
@@ -10,7 +12,19 @@ import (
 	"strings"
 )
 
-type LogFormat []tokens.Token
+var LevelToBytes = map[golog_config.LogLevel][]byte{
+	golog_config.INFO:    []byte("INFO"),
+	golog_config.WARNING: []byte("WARNING"),
+	golog_config.ERROR:   []byte("ERROR"),
+	golog_config.DEBUG:   []byte("DEBUG"),
+	golog_config.PANIC:   []byte("PANIC"),
+}
+
+var L = map[string][]byte{}
+
+type LogFormat []tokens.TokenType
+
+var LogFormatTokens *LogFormat
 
 func Caller() (string, int) {
 	_, file, line, ok := runtime.Caller(2)
@@ -22,8 +36,14 @@ func Caller() (string, int) {
 	return file, line
 }
 
-func Format() *LogFormat {
-	return &LogFormat{}
+func Format(format, literal string) {
+	LogFormatTokens = &LogFormat{}
+
+	L["l"] = []byte(literal)
+
+	if err := ParseFormat(format, LogFormatTokens); err != nil {
+		fmt.Println("ParseFormat(format) failed:", err)
+	}
 }
 
 func ParseFormat(format string, logFormat *LogFormat) error {
@@ -38,23 +58,27 @@ func ParseFormat(format string, logFormat *LogFormat) error {
 
 		switch token[1] {
 		case "name":
-			*logFormat = append(*logFormat, tokens.Token{Type: tokens.TokenName})
+			*logFormat = append(*logFormat, tokens.TokenName)
 		case "content":
-			*logFormat = append(*logFormat, tokens.Token{Type: tokens.TokenContent})
+			*logFormat = append(*logFormat, tokens.TokenContent)
 		case "level":
-			*logFormat = append(*logFormat, tokens.Token{Type: tokens.TokenLevel})
-		case "color":
-			*logFormat = append(*logFormat, tokens.Token{Type: tokens.TokenColor})
+			*logFormat = append(*logFormat, tokens.TokenLevel)
 		case "timestamp":
-			*logFormat = append(*logFormat, tokens.Token{Type: tokens.TokenTimestamp})
+			*logFormat = append(*logFormat, tokens.TokenTimestamp)
 		case "caller":
-			*logFormat = append(*logFormat, tokens.Token{Type: tokens.TokenCaller})
+			*logFormat = append(*logFormat, tokens.TokenCaller)
+		case "l":
+			*logFormat = append(*logFormat, tokens.TokenLiteral)
 		default:
-			*logFormat = append(*logFormat, tokens.Token{Type: tokens.TokenLiteral})
+			return golog_errs.UnknownFormat
 		}
 	}
 
 	return nil
+}
+
+func CachedTimestamp() {
+
 }
 
 func HexToFormat(hex string) (string, error) {

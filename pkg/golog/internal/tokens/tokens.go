@@ -10,8 +10,3 @@ const (
 	TokenCaller
 	TokenLiteral
 )
-
-type Token struct {
-	Type  TokenType
-	Value []byte
-}

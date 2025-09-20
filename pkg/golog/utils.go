@@ -1,52 +1,29 @@
 package golog
 
 import (
-	"fmt"
+	"github.com/NoOl01/golog/pkg/golog/golog_config"
 	"github.com/NoOl01/golog/pkg/golog/internal/format"
 	"github.com/NoOl01/golog/pkg/golog/internal/logger"
 )
 
 type DefaultLogger interface {
-	Info(msg string)
-	Debug(msg string)
-	Warn(msg string)
-	Error(msg string)
-	Panic(msg string)
-}
-
-type LogWithBuff interface {
-	InfoB(msg string)
-	DebugB(msg string)
-	WarnB(msg string)
-	ErrorB(msg string)
-	PanicB(msg string)
+	Info(name, msg string)
+	Debug(name, msg string)
+	Warn(name, msg string)
+	Error(name, msg string)
+	Panic(name, msg string)
 }
 
 type loggerConfig struct {
 	Default DefaultLogger
-	Buff    LogWithBuff
 }
 
 var config = loggerConfig{
 	Default: &logger.Logger{},
-	Buff:    &logger.Buff{},
 }
 
 func Start() DefaultLogger {
+	format.Format(golog_config.Format, golog_config.Literal)
 
 	return config.Default
-}
-
-func StartBuff() LogWithBuff {
-	return config.Buff
-}
-
-func Test(text string) {
-	var form format.LogFormat
-	if err := format.Format(text, &form); err != nil {
-		fmt.Println(err.Error())
-		return
-	}
-
-	fmt.Println(form)
 }

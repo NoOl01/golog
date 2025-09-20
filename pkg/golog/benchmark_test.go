@@ -5,26 +5,14 @@ import (
 	"testing"
 )
 
-func BenchmarkLog(b *testing.B) {
-	logger := Start()
+func BenchmarkLogToConsole(b *testing.B) {
+	loggerBuff := Start()
 
 	b.ReportAllocs()
 
 	b.RunParallel(func(pb *testing.PB) {
 		for pb.Next() {
-			logger.Info("hello world")
-		}
-	})
-}
-
-func BenchmarkLogWithBuff(b *testing.B) {
-	loggerBuff := StartBuff()
-
-	b.ReportAllocs()
-
-	b.RunParallel(func(pb *testing.PB) {
-		for pb.Next() {
-			loggerBuff.InfoB("hello world")
+			loggerBuff.Info("test", "hello world")
 		}
 	})
 }
@@ -36,7 +24,17 @@ func BenchmarkFormat(b *testing.B) {
 
 	b.RunParallel(func(pb *testing.PB) {
 		for pb.Next() {
-			format.Format("${name}, ${content}", &logFormat)
+			format.ParseFormat("${name}, ${content}", &logFormat)
+		}
+	})
+}
+
+func BenchmarkCaller(b *testing.B) {
+	b.ReportAllocs()
+
+	b.RunParallel(func(pb *testing.PB) {
+		for pb.Next() {
+			format.Caller()
 		}
 	})
 }

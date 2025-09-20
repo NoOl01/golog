@@ -3,10 +3,11 @@ package golog_config
 import "fmt"
 
 var (
+	Format  = fmt.Sprintf("${%s} ${l} ${%s}} ${l} ${%s}", FName, FContent, FTimestamp)
+	Literal = " | "
 	InfoCfg = LevelConfig{
 		LogLevel: INFO,
 		Color:    White,
-		Format:   fmt.Sprintf("%s | %s{%s} | %s | %s:%s", FTimestamp, FColor, FName, FContent, FCallerFile, FCallerLine),
 		Rotation: Rotation{
 			AutoDelete:     true,
 			AutoDeleteDays: 30,
@@ -17,7 +18,6 @@ var (
 	DebugCfg = LevelConfig{
 		LogLevel: DEBUG,
 		Color:    Green,
-		Format:   fmt.Sprintf("%s | %s{%s} | %s | %s:%s", FTimestamp, FColor, FName, FContent, FCallerFile, FCallerLine),
 		Rotation: Rotation{
 			AutoDelete:     true,
 			AutoDeleteDays: 30,
@@ -28,7 +28,6 @@ var (
 	WarningCfg = LevelConfig{
 		LogLevel: WARNING,
 		Color:    Yellow,
-		Format:   fmt.Sprintf("%s | %s{%s} | %s | %s:%s", FTimestamp, FColor, FName, FContent, FCallerFile, FCallerLine),
 		Rotation: Rotation{
 			AutoDelete:     true,
 			AutoDeleteDays: 30,
@@ -39,7 +38,6 @@ var (
 	ErrorCfg = LevelConfig{
 		LogLevel: ERROR,
 		Color:    Orange,
-		Format:   fmt.Sprintf("%s | %s{%s} | %s | %s:%s", FTimestamp, FColor, FName, FContent, FCallerFile, FCallerLine),
 		Rotation: Rotation{
 			AutoDelete:     true,
 			AutoDeleteDays: 30,
@@ -50,7 +48,6 @@ var (
 	PanicCfg = LevelConfig{
 		LogLevel: PANIC,
 		Color:    Red,
-		Format:   fmt.Sprintf("%s | %s{%s} | %s | %s:%s", FTimestamp, FColor, FName, FContent, FCallerFile, FCallerLine),
 		Rotation: Rotation{
 			AutoDelete:     true,
 			AutoDeleteDays: 30,
