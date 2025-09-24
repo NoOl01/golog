@@ -23,7 +23,11 @@ var config = loggerConfig{
 }
 
 func Start() DefaultLogger {
+	defer logger.StopConsoleLog()
 	format.Format(golog_config.Format, golog_config.Literal)
+
+	go logger.StartTickerTimestamp()
+	logger.StartConsoleLog()
 
 	return config.Default
 }

@@ -6,8 +6,6 @@ import (
 	"github.com/NoOl01/golog/pkg/golog/internal/buffer"
 	"github.com/NoOl01/golog/pkg/golog/internal/format"
 	"github.com/NoOl01/golog/pkg/golog/internal/tokens"
-	"os"
-	"time"
 )
 
 type LogData struct {
@@ -21,16 +19,15 @@ type LogData struct {
 
 type Logger struct{}
 
-func Log(name, msg string, level golog_config.LogLevel) {
+func (l *Logger) Log(name, msg string, level golog_config.LogLevel) {
 	buf := buffer.GetBuffer()
 	buf.Reset()
-	defer buffer.PutBuffer(buf)
 
 	data := &LogData{
 		Name:      name,
 		Content:   msg,
 		Level:     format.LevelToBytes[level],
-		Timestamp: []byte(time.Now().Format(time.RFC3339)),
+		Timestamp: timestamp,
 		Caller:    []byte{},
 		Literal:   format.L["l"],
 	}
@@ -41,16 +38,18 @@ func Log(name, msg string, level golog_config.LogLevel) {
 
 	buf.WriteByte('\n')
 
-	os.Stdout.Write(buf.Bytes())
+	select {
+	case logBufferChannel <- buf:
+	default:
+		buffer.PutBuffer(buf)
+	}
 }
 
-func (l *Logger) Info(name, msg string)  { Log(name, msg, golog_config.INFO) }
-func (l *Logger) Debug(name, msg string) { Log(name, msg, golog_config.DEBUG) }
-func (l *Logger) Warn(name, msg string) {
-	Log(name, msg, golog_config.WARNING)
-}
-func (l *Logger) Error(name, msg string) { Log(name, msg, golog_config.ERROR) }
-func (l *Logger) Panic(name, msg string) { Log(name, msg, golog_config.PANIC) }
+func (l *Logger) Info(name, msg string)  { l.Log(name, msg, golog_config.INFO) }
+func (l *Logger) Debug(name, msg string) { l.Log(name, msg, golog_config.DEBUG) }
+func (l *Logger) Warn(name, msg string)  { l.Log(name, msg, golog_config.WARNING) }
+func (l *Logger) Error(name, msg string) { l.Log(name, msg, golog_config.ERROR) }
+func (l *Logger) Panic(name, msg string) { l.Log(name, msg, golog_config.PANIC) }
 
 func WriteByTokens(buf *bytes.Buffer, token tokens.TokenType, data *LogData) {
 	switch token {
