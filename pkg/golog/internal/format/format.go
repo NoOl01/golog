@@ -1,14 +1,11 @@
 package format
 
 import (
-	"errors"
 	"fmt"
 	"github.com/NoOl01/golog/pkg/golog/golog_config"
 	"github.com/NoOl01/golog/pkg/golog/golog_errs"
 	"github.com/NoOl01/golog/pkg/golog/internal/tokens"
 	"regexp"
-	"runtime"
-	"strconv"
 	"strings"
 )
 
@@ -25,16 +22,6 @@ var L = map[string][]byte{}
 type LogFormat []tokens.TokenType
 
 var LogFormatTokens *LogFormat
-
-func Caller() (string, int) {
-	_, file, line, ok := runtime.Caller(2)
-	if !ok {
-		fmt.Println("runtime.Caller() failed")
-		return "", 0
-	}
-
-	return file, line
-}
 
 func Format(format, literal string) {
 	LogFormatTokens = &LogFormat{}
@@ -75,31 +62,4 @@ func ParseFormat(format string, logFormat *LogFormat) error {
 	}
 
 	return nil
-}
-
-func CachedTimestamp() {
-
-}
-
-func HexToFormat(hex string) (string, error) {
-	hex = strings.TrimPrefix(hex, "#")
-
-	if len(hex) != 6 {
-		return "", errors.New("invalid format")
-	}
-
-	r, err := strconv.ParseUint(hex[0:2], 16, 8)
-	if err != nil {
-		return "", err
-	}
-	g, err := strconv.ParseUint(hex[2:4], 16, 8)
-	if err != nil {
-		return "", err
-	}
-	b, err := strconv.ParseUint(hex[4:6], 16, 8)
-	if err != nil {
-		return "", err
-	}
-
-	return fmt.Sprintf("\\033[38;2;%d;%d;%d", r, g, b), nil
 }

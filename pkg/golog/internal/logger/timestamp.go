@@ -17,10 +17,6 @@ func StartTickerTimestamp() {
 	}
 }
 
-func getCachedTimestamp() []byte {
-	return timestamp
-}
-
 func updateTimestamp() {
 	timestamp = time.Now().AppendFormat(timestamp[:0], time.RFC3339)
 }

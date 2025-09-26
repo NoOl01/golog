@@ -34,12 +34,10 @@ var (
 )
 
 const (
-	FTimestamp  = "timestamp"
-	FColor      = "color"
-	FName       = "name"
-	FContent    = "content"
-	FCallerFile = "caller_file"
-	FCallerLine = "caller_line"
+	FTimestamp = "timestamp"
+	FName      = "name"
+	FContent   = "content"
+	FLevel     = "level"
 )
 
 const (

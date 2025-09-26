@@ -28,7 +28,7 @@ func (l *Logger) Log(name, msg string, level golog_config.LogLevel) {
 		Content:   msg,
 		Level:     format.LevelToBytes[level],
 		Timestamp: timestamp,
-		Caller:    []byte{},
+		Caller:    GetCaller(),
 		Literal:   format.L["l"],
 	}
 

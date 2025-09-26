@@ -1,11 +1,14 @@
 package golog
 
 import (
+	"github.com/NoOl01/golog/pkg/golog/golog_config"
 	"github.com/NoOl01/golog/pkg/golog/internal/format"
+	"github.com/NoOl01/golog/pkg/golog/internal/logger"
 	"testing"
 )
 
 func BenchmarkLogToConsole(b *testing.B) {
+	golog_config.Format = "${name} ${l} ${content} ${l} ${level} ${l} ${timestamp} ${l} ${caller}"
 	loggerBuff := Start()
 
 	b.ReportAllocs()
@@ -15,6 +18,8 @@ func BenchmarkLogToConsole(b *testing.B) {
 			loggerBuff.Info("test", "hello world")
 		}
 	})
+
+	Stop()
 }
 
 func BenchmarkFormat(b *testing.B) {
@@ -34,7 +39,7 @@ func BenchmarkCaller(b *testing.B) {
 
 	b.RunParallel(func(pb *testing.PB) {
 		for pb.Next() {
-			format.Caller()
+			logger.GetCaller()
 		}
 	})
 }

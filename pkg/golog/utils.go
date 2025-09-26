@@ -4,6 +4,7 @@ import (
 	"github.com/NoOl01/golog/pkg/golog/golog_config"
 	"github.com/NoOl01/golog/pkg/golog/internal/format"
 	"github.com/NoOl01/golog/pkg/golog/internal/logger"
+	"time"
 )
 
 type DefaultLogger interface {
@@ -23,11 +24,15 @@ var config = loggerConfig{
 }
 
 func Start() DefaultLogger {
-	defer logger.StopConsoleLog()
 	format.Format(golog_config.Format, golog_config.Literal)
 
 	go logger.StartTickerTimestamp()
+	time.Sleep(50 * time.Millisecond)
 	logger.StartConsoleLog()
 
 	return config.Default
+}
+
+func Stop() {
+	logger.StopConsoleLog()
 }

@@ -12,17 +12,13 @@ import (
 var (
 	logWg            sync.WaitGroup
 	logBufferChannel = make(chan *bytes.Buffer, 100)
-	logQuit          chan struct{}
+	logQuit          = make(chan struct{})
+	once             sync.Once
 )
 
-var quit = make(chan struct{})
-
 func StartConsoleLog() {
-
 	logWg.Add(1)
 	go consoleLogTicker()
-
-	logWg.Wait()
 }
 
 func consoleLogTicker() {
@@ -51,7 +47,7 @@ func consoleLogTicker() {
 				writer.Flush()
 				count = 0
 			}
-		case <-quit:
+		case <-logQuit:
 			for {
 				select {
 				case buf := <-logBufferChannel:
@@ -63,11 +59,12 @@ func consoleLogTicker() {
 				}
 			}
 		}
-
 	}
 }
 
 func StopConsoleLog() {
-	close(quit)
+	once.Do(func() {
+		close(logQuit)
+	})
 	logWg.Wait()
 }
