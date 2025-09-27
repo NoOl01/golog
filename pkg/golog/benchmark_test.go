@@ -9,13 +9,13 @@ import (
 
 func BenchmarkLogToConsole(b *testing.B) {
 	golog_config.Format = "${name} ${l} ${content} ${l} ${level} ${l} ${timestamp} ${l} ${caller}"
-	loggerBuff := Start()
+	log := Start()
 
 	b.ReportAllocs()
 
 	b.RunParallel(func(pb *testing.PB) {
 		for pb.Next() {
-			loggerBuff.Info("test", "hello world")
+			log.Info("test", "hello world")
 		}
 	})
 

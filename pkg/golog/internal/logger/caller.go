@@ -1,36 +1,35 @@
 package logger
 
 import (
-	"bytes"
-	"github.com/NoOl01/golog/pkg/golog/internal/buffer"
 	"runtime"
 	"strconv"
 	"sync"
 )
 
 var (
-	fileBuffer = make([]byte, 0, 128)
-	lineBuffer = make([]byte, 0, 10)
+	pcBuf      = make([]uintptr, 1)
+	callerPool = sync.Pool{
+		New: func() interface{} {
+			buf := make([]byte, 0, 128)
+			return &buf
+		},
+	}
 )
 
-var callerPool = sync.Pool{
-	New: func() interface{} {
-		return &bytes.Buffer{}
-	},
-}
-
 func GetCaller() []byte {
-	callerBuf := callerPool.Get().(*bytes.Buffer)
-	callerBuf.Reset()
+	bufPtr := callerPool.Get().(*[]byte)
+	buf := (*bufPtr)[:0]
 
-	pc := make([]uintptr, 15)
-	runtime.Callers(3, pc)
+	runtime.Callers(3, pcBuf)
 
-	file, line := runtime.FuncForPC(pc[0]).FileLine(pc[0])
-	callerBuf.WriteString(file)
-	callerBuf.WriteByte(':')
-	callerBuf.WriteString(strconv.Itoa(line))
+	file, line := runtime.FuncForPC(pcBuf[0]).FileLine(pcBuf[0])
 
-	buffer.PutBuffer(callerBuf)
-	return callerBuf.Bytes()
+	buf = append(buf, file...)
+	buf = append(buf, ':')
+	buf = strconv.AppendInt(buf, int64(line), 10)
+
+	*bufPtr = buf
+	callerPool.Put(bufPtr)
+
+	return buf
 }
