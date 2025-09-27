@@ -20,7 +20,7 @@ func GetCaller() []byte {
 	bufPtr := callerPool.Get().(*[]byte)
 	buf := (*bufPtr)[:0]
 
-	runtime.Callers(3, pcBuf)
+	runtime.Callers(4, pcBuf)
 
 	file, line := runtime.FuncForPC(pcBuf[0]).FileLine(pcBuf[0])
 
