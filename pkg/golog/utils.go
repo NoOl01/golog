@@ -2,9 +2,9 @@ package golog
 
 import (
 	"github.com/NoOl01/golog/pkg/golog/golog_config"
+	loggerconfig "github.com/NoOl01/golog/pkg/golog/internal/config"
 	"github.com/NoOl01/golog/pkg/golog/internal/format"
 	"github.com/NoOl01/golog/pkg/golog/internal/logger"
-	"time"
 )
 
 type DefaultLogger interface {
@@ -19,18 +19,27 @@ type loggerConfig struct {
 	Default DefaultLogger
 }
 
-var config = loggerConfig{
+var defaultConfig = loggerConfig{
 	Default: &logger.Logger{},
 }
 
-func Start() DefaultLogger {
-	format.Format(golog_config.Format, golog_config.Literal)
+func Start(config *golog_config.Config) DefaultLogger {
+	format.Format(config.Format, config.Literal)
 
-	go logger.StartTickerTimestamp()
-	time.Sleep(50 * time.Millisecond)
+	loggerconfig.LoggerFuncConfig = &loggerconfig.LoggerFunc{
+		Timestamp: false,
+		Caller:    false,
+	}
+	format.AutoDisable()
+
+	if loggerconfig.LoggerFuncConfig.Timestamp {
+		go logger.StartTickerTimestamp()
+		<-logger.TimestampDone
+	}
+
 	logger.StartConsoleLog()
 
-	return config.Default
+	return defaultConfig.Default
 }
 
 func Stop() {

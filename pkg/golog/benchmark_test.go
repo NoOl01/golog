@@ -8,8 +8,11 @@ import (
 )
 
 func BenchmarkLogToConsole(b *testing.B) {
-	golog_config.Format = "${name} ${l} ${content} ${l} ${level} ${l} ${timestamp} ${l} ${caller}"
-	log := Start()
+	config := &golog_config.Config{
+		Format:  "${name} ${l} ${content} ${l} ${level} ${l} ${timestamp} ${l} ${caller}",
+		Literal: " || ",
+	}
+	log := Start(config)
 
 	b.ReportAllocs()
 

@@ -1,35 +1,35 @@
 package logger
 
 import (
+	"github.com/NoOl01/golog/pkg/golog/internal/config"
 	"runtime"
 	"strconv"
 	"sync"
 )
 
 var (
-	pcBuf      = make([]uintptr, 1)
-	callerPool = sync.Pool{
-		New: func() interface{} {
-			buf := make([]byte, 0, 128)
-			return &buf
-		},
-	}
+	callerCache sync.Map
 )
 
 func GetCaller() []byte {
-	bufPtr := callerPool.Get().(*[]byte)
-	buf := (*bufPtr)[:0]
+	if !config.LoggerFuncConfig.Caller {
+		return nil
+	}
+	
+	var pcs [1]uintptr
+	runtime.Callers(4, pcs[:])
 
-	runtime.Callers(4, pcBuf)
+	if v, ok := callerCache.Load(pcs[0]); ok {
+		return v.([]byte)
+	}
 
-	file, line := runtime.FuncForPC(pcBuf[0]).FileLine(pcBuf[0])
+	file, line := runtime.FuncForPC(pcs[0]).FileLine(pcs[0])
 
-	buf = append(buf, file...)
-	buf = append(buf, ':')
-	buf = strconv.AppendInt(buf, int64(line), 10)
+	b := make([]byte, 0, 64)
+	b = append(b, file...)
+	b = append(b, ':')
+	b = strconv.AppendInt(b, int64(line), 10)
 
-	*bufPtr = buf
-	callerPool.Put(bufPtr)
-
-	return buf
+	callerCache.Store(pcs[0], b)
+	return b
 }

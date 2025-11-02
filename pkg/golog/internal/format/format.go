@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/NoOl01/golog/pkg/golog/golog_config"
 	"github.com/NoOl01/golog/pkg/golog/golog_errs"
+	"github.com/NoOl01/golog/pkg/golog/internal/config"
 	"github.com/NoOl01/golog/pkg/golog/internal/tokens"
 	"regexp"
 	"strings"
@@ -25,6 +26,10 @@ var LogFormatTokens *LogFormat
 
 func Format(format, literal string) {
 	LogFormatTokens = &LogFormat{}
+
+	if literal == "" {
+		literal = " | "
+	}
 
 	L["l"] = []byte(literal)
 
@@ -62,4 +67,17 @@ func ParseFormat(format string, logFormat *LogFormat) error {
 	}
 
 	return nil
+}
+
+func AutoDisable() {
+	for _, token := range *LogFormatTokens {
+		switch token {
+		case tokens.TokenTimestamp:
+			config.LoggerFuncConfig.Timestamp = true
+		case tokens.TokenCaller:
+			config.LoggerFuncConfig.Caller = true
+		default:
+			continue
+		}
+	}
 }
