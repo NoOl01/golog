@@ -1,12 +1,13 @@
 package logger
 
 import (
+	"github.com/NoOl01/golog/internal/buffer"
+	"github.com/NoOl01/golog/internal/format"
+	"github.com/NoOl01/golog/internal/logger/log_data"
+	"github.com/NoOl01/golog/internal/logger_config"
+	"github.com/NoOl01/golog/internal/tokens"
+	"github.com/NoOl01/golog/internal/unsafe_conv"
 	"github.com/NoOl01/golog/pkg/golog/golog_config"
-	"github.com/NoOl01/golog/pkg/golog/internal/buffer"
-	"github.com/NoOl01/golog/pkg/golog/internal/format"
-	"github.com/NoOl01/golog/pkg/golog/internal/logger/log_data"
-	"github.com/NoOl01/golog/pkg/golog/internal/tokens"
-	"github.com/NoOl01/golog/pkg/golog/internal/unsafe_conv"
 )
 
 type Logger struct{}
@@ -49,8 +50,13 @@ func (l *Logger) Log(name, msg string, level golog_config.LogLevel) {
 	}
 }
 
-func (l *Logger) Info(name, msg string)  { l.Log(name, msg, golog_config.INFO) }
-func (l *Logger) Debug(name, msg string) { l.Log(name, msg, golog_config.DEBUG) }
+func (l *Logger) Info(name, msg string) { l.Log(name, msg, golog_config.INFO) }
+func (l *Logger) Debug(name, msg string) {
+	if !logger_config.ApiConfig.Debug {
+		return
+	}
+	l.Log(name, msg, golog_config.DEBUG)
+}
 func (l *Logger) Warn(name, msg string)  { l.Log(name, msg, golog_config.WARNING) }
 func (l *Logger) Error(name, msg string) { l.Log(name, msg, golog_config.ERROR) }
 func (l *Logger) Panic(name, msg string) { l.Log(name, msg, golog_config.PANIC) }

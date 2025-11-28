@@ -1,10 +1,10 @@
 package golog
 
 import (
+	"github.com/NoOl01/golog/internal/format"
+	logger2 "github.com/NoOl01/golog/internal/logger"
+	"github.com/NoOl01/golog/internal/logger_config"
 	"github.com/NoOl01/golog/pkg/golog/golog_config"
-	loggerconfig "github.com/NoOl01/golog/pkg/golog/internal/config"
-	"github.com/NoOl01/golog/pkg/golog/internal/format"
-	"github.com/NoOl01/golog/pkg/golog/internal/logger"
 )
 
 type DefaultLogger interface {
@@ -20,28 +20,29 @@ type loggerConfig struct {
 }
 
 var defaultConfig = loggerConfig{
-	Default: &logger.Logger{},
+	Default: &logger2.Logger{},
 }
 
 func Start(config *golog_config.Config) DefaultLogger {
+	logger_config.ApiConfig = config
 	format.Format(config.Format, config.Literal)
 
-	loggerconfig.LoggerFuncConfig = &loggerconfig.LoggerFunc{
+	logger_config.LoggerFuncConfig = &logger_config.LoggerFunc{
 		Timestamp: false,
 		Caller:    false,
 	}
 	format.AutoDisable()
 
-	if loggerconfig.LoggerFuncConfig.Timestamp {
-		go logger.StartTickerTimestamp()
-		<-logger.TimestampDone
+	if logger_config.LoggerFuncConfig.Timestamp {
+		go logger2.StartTickerTimestamp()
+		<-logger2.TimestampDone
 	}
 
-	logger.StartConsoleLog()
+	logger2.StartConsoleLog()
 
 	return defaultConfig.Default
 }
 
 func Stop() {
-	logger.StopConsoleLog()
+	logger2.StopConsoleLog()
 }

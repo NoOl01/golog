@@ -1,10 +1,11 @@
 package logger
 
 import (
-	"github.com/NoOl01/golog/pkg/golog/internal/config"
 	"runtime"
 	"strconv"
 	"sync"
+
+	"github.com/NoOl01/golog/internal/logger_config"
 )
 
 var (
@@ -12,10 +13,10 @@ var (
 )
 
 func GetCaller() []byte {
-	if !config.LoggerFuncConfig.Caller {
+	if !logger_config.LoggerFuncConfig.Caller {
 		return nil
 	}
-	
+
 	var pcs [1]uintptr
 	runtime.Callers(4, pcs[:])
 

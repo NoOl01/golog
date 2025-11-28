@@ -1,10 +1,11 @@
 package golog
 
 import (
-	"github.com/NoOl01/golog/pkg/golog/golog_config"
-	"github.com/NoOl01/golog/pkg/golog/internal/format"
-	"github.com/NoOl01/golog/pkg/golog/internal/logger"
 	"testing"
+
+	"github.com/NoOl01/golog/internal/format"
+	"github.com/NoOl01/golog/internal/logger"
+	"github.com/NoOl01/golog/pkg/golog/golog_config"
 )
 
 func BenchmarkLogToConsole(b *testing.B) {

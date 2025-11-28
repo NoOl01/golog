@@ -3,10 +3,11 @@ package logger
 import (
 	"bufio"
 	"bytes"
-	"github.com/NoOl01/golog/pkg/golog/internal/buffer"
 	"os"
 	"sync"
 	"time"
+
+	"github.com/NoOl01/golog/internal/buffer"
 )
 
 var (

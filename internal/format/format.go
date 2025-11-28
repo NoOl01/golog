@@ -2,12 +2,13 @@ package format
 
 import (
 	"fmt"
-	"github.com/NoOl01/golog/pkg/golog/golog_config"
-	"github.com/NoOl01/golog/pkg/golog/golog_errs"
-	"github.com/NoOl01/golog/pkg/golog/internal/config"
-	"github.com/NoOl01/golog/pkg/golog/internal/tokens"
 	"regexp"
 	"strings"
+
+	"github.com/NoOl01/golog/internal/logger_config"
+	"github.com/NoOl01/golog/internal/tokens"
+	"github.com/NoOl01/golog/pkg/golog/golog_config"
+	"github.com/NoOl01/golog/pkg/golog/golog_errs"
 )
 
 var LevelToBytes = map[golog_config.LogLevel][]byte{
@@ -73,9 +74,9 @@ func AutoDisable() {
 	for _, token := range *LogFormatTokens {
 		switch token {
 		case tokens.TokenTimestamp:
-			config.LoggerFuncConfig.Timestamp = true
+			logger_config.LoggerFuncConfig.Timestamp = true
 		case tokens.TokenCaller:
-			config.LoggerFuncConfig.Caller = true
+			logger_config.LoggerFuncConfig.Caller = true
 		default:
 			continue
 		}
