@@ -1,13 +1,14 @@
 package logger
 
 import (
-	"github.com/NoOl01/golog/internal/buffer"
-	"github.com/NoOl01/golog/internal/format"
-	"github.com/NoOl01/golog/internal/logger/log_data"
-	"github.com/NoOl01/golog/internal/logger_config"
-	"github.com/NoOl01/golog/internal/tokens"
-	"github.com/NoOl01/golog/internal/unsafe_conv"
-	"github.com/NoOl01/golog/pkg/golog/golog_config"
+	"github.com/NoOl01/velog/internal/buffer"
+	"github.com/NoOl01/velog/internal/format"
+	"github.com/NoOl01/velog/internal/logger/console_logger"
+	"github.com/NoOl01/velog/internal/logger/log_data"
+	"github.com/NoOl01/velog/internal/logger_config"
+	"github.com/NoOl01/velog/internal/tokens"
+	"github.com/NoOl01/velog/internal/unsafe_conv"
+	"github.com/NoOl01/velog/pkg/golog/golog_config"
 )
 
 type Logger struct{}
@@ -44,7 +45,7 @@ func (l *Logger) Log(name, msg string, level golog_config.LogLevel) {
 	buf.WriteByte('\n')
 
 	select {
-	case logBufferChannel <- buf:
+	case console_logger.LogBufferChannel <- buf:
 	default:
 		buffer.PutBuffer(buf)
 	}

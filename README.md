@@ -1,4 +1,4 @@
-# GoLog
+# velog
 
 Lightweight and fast logger for Go with flexible formatting support
 
@@ -12,7 +12,7 @@ Lightweight and fast logger for Go with flexible formatting support
 ## Installation
 
 ```
-go get github.com/NoOl01/golog
+go get github.com/NoOl01/velog
 ```
 
 ## Quick start
@@ -22,15 +22,15 @@ go get github.com/NoOl01/golog
 ```
 package main
 
-import "github.com/NoOl01/golog/pkg/golog"
+import "github.com/NoOl01/velog/pkg/velog"
 
 func main() {
-    config := &golog_config.Config{
+    config := &velog_config.Config{
         Format: "${name} ${l} ${content} ${l} ${level} ${l} ${timestamp} ${l} ${caller}",
 		Literal: " | ",
     }
-    log := golog.Start(config)
-    defer golog.Stop()
+    log := velog.Start(config)
+    defer velog.Stop()
     
     log.Info("test", "hellow world")
     
@@ -40,9 +40,9 @@ func main() {
 
 ## Benchmark
 
-| Operation | Iterations | Speed | Memory | Allocations |
-|:--:|:--:|:--:|:--:|:--:|
-`BenchmarkLogToConsole | 7000000 | 150 ns/op | 0 B/op | 0 allocs/op
+|       Operation        | Iterations |   Speed   | Memory | Allocations |
+|:----------------------:|:----------:|:---------:|:------:|:-----------:|
+| `BenchmarkLogToConsole |  7000000   | 150 ns/op | 0 B/op | 0 allocs/op |
 
 ## Format placeholders
 

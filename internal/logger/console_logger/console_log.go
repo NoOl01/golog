@@ -1,4 +1,4 @@
-package logger
+package console_logger
 
 import (
 	"bufio"
@@ -7,12 +7,12 @@ import (
 	"sync"
 	"time"
 
-	"github.com/NoOl01/golog/internal/buffer"
+	"github.com/NoOl01/velog/internal/buffer"
 )
 
 var (
 	logWg            sync.WaitGroup
-	logBufferChannel = make(chan *bytes.Buffer, 100)
+	LogBufferChannel = make(chan *bytes.Buffer, 100)
 	logQuit          = make(chan struct{})
 	once             sync.Once
 )
@@ -34,7 +34,7 @@ func consoleLogTicker() {
 
 	for {
 		select {
-		case buf := <-logBufferChannel:
+		case buf := <-LogBufferChannel:
 			n, _ := writer.Write(buf.Bytes())
 			count += n
 			buffer.PutBuffer(buf)
@@ -51,7 +51,7 @@ func consoleLogTicker() {
 		case <-logQuit:
 			for {
 				select {
-				case buf := <-logBufferChannel:
+				case buf := <-LogBufferChannel:
 					writer.Write(buf.Bytes())
 					buffer.PutBuffer(buf)
 				default:

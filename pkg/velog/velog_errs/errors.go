@@ -1,4 +1,4 @@
-package golog_errs
+package velog_errs
 
 import "errors"
 

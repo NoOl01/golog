@@ -1,10 +1,11 @@
-package golog
+package velog
 
 import (
-	"github.com/NoOl01/golog/internal/format"
-	logger2 "github.com/NoOl01/golog/internal/logger"
-	"github.com/NoOl01/golog/internal/logger_config"
-	"github.com/NoOl01/golog/pkg/golog/golog_config"
+	"github.com/NoOl01/velog/internal/format"
+	logger2 "github.com/NoOl01/velog/internal/logger"
+	"github.com/NoOl01/velog/internal/logger/console_logger"
+	"github.com/NoOl01/velog/internal/logger_config"
+	"github.com/NoOl01/velog/pkg/velog/velog_config"
 )
 
 type DefaultLogger interface {
@@ -23,7 +24,7 @@ var defaultConfig = loggerConfig{
 	Default: &logger2.Logger{},
 }
 
-func Start(config *golog_config.Config) DefaultLogger {
+func Start(config *velog_config.Config) DefaultLogger {
 	logger_config.ApiConfig = config
 	format.Format(config.Format, config.Literal)
 
@@ -38,11 +39,11 @@ func Start(config *golog_config.Config) DefaultLogger {
 		<-logger2.TimestampDone
 	}
 
-	logger2.StartConsoleLog()
+	console_logger.StartConsoleLog()
 
 	return defaultConfig.Default
 }
 
 func Stop() {
-	logger2.StopConsoleLog()
+	console_logger.StopConsoleLog()
 }

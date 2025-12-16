@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"sync"
 
-	"github.com/NoOl01/golog/internal/logger_config"
+	"github.com/NoOl01/velog/internal/logger_config"
 )
 
 var (

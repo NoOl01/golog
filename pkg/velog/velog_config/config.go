@@ -1,4 +1,4 @@
-package golog_config
+package velog_config
 
 type LogLevel int
 type Format int

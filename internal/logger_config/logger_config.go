@@ -1,6 +1,6 @@
 package logger_config
 
-import "github.com/NoOl01/golog/pkg/golog/golog_config"
+import "github.com/NoOl01/velog/pkg/golog/golog_config"
 
 type LoggerFunc struct {
 	Timestamp bool

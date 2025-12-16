@@ -5,10 +5,10 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/NoOl01/golog/internal/logger_config"
-	"github.com/NoOl01/golog/internal/tokens"
-	"github.com/NoOl01/golog/pkg/golog/golog_config"
-	"github.com/NoOl01/golog/pkg/golog/golog_errs"
+	"github.com/NoOl01/velog/internal/logger_config"
+	"github.com/NoOl01/velog/internal/tokens"
+	"github.com/NoOl01/velog/pkg/golog/golog_config"
+	"github.com/NoOl01/velog/pkg/golog/golog_errs"
 )
 
 var LevelToBytes = map[golog_config.LogLevel][]byte{
