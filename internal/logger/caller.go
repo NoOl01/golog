@@ -12,6 +12,7 @@ var (
 	callerCache sync.Map
 )
 
+// GetCaller todo Fix caller
 func GetCaller() []byte {
 	if !logger_config.LoggerFuncConfig.Caller {
 		return nil

@@ -1,0 +1,50 @@
+name: Tests
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.21'
+
+      - name: Run tests
+        run: go test -v -race ./...
+
+      - name: Check if release needed
+        if: github.event_name == 'push' && contains(github.event.head_commit.message, 'Release')
+        id: check_release
+        run: |
+          # Извлекаем версию из коммит-сообщения (например, "Release v1.2.3")
+          VERSION=$(echo "${{ github.event.head_commit.message }}" | grep -oP 'Release\s+v\K[0-9]+\.[0-9]+\.[0-9]+' || echo "")
+          if [ -z "$VERSION" ]; then
+            echo "Version not found in commit message. Use format: 'Release v1.2.3'"
+            exit 1
+          fi
+          echo "version=v$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Create Release
+        if: steps.check_release.outcome == 'success'
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.check_release.outputs.version }}
+          release_name: Release ${{ steps.check_release.outputs.version }}
+          body: |
+            Release ${{ steps.check_release.outputs.version }}
+            
+            Commit: ${{ github.event.head_commit.message }}
+          draft: false
+          prerelease: false

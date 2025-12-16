@@ -1,5 +1,9 @@
 # velog
 
+[![Tests](https://github.com/NoOl01/velog/actions/workflows/go.yml/badge.svg)](https://github.com/NoOl01/velog/actions/workflows/go.yml)
+[![Go Report Card](https://goreportcard.com/badge/github.com/NoOl01/velog)](https://goreportcard.com/report/github.com/NoOl01/velog)
+[![Go Reference](https://pkg.go.dev/badge/github.com/NoOl01/velog.svg)](https://pkg.go.dev/github.com/NoOl01/velog)
+
 Lightweight and fast logger for Go with flexible formatting support
 
 ## Features
@@ -27,14 +31,12 @@ import "github.com/NoOl01/velog/pkg/velog"
 func main() {
     config := &velog_config.Config{
         Format: "${name} ${l} ${content} ${l} ${level} ${l} ${timestamp} ${l} ${caller}",
-		Literal: " | ",
+        Literal: " | ",
     }
     log := velog.Start(config)
     defer velog.Stop()
     
     log.Info("test", "hellow world")
-    
-    
 }
 ```
 
@@ -46,9 +48,9 @@ func main() {
 
 ## Format placeholders
 
-- ${level} - Log level
-- ${name} - Log name
-- ${content} - Log message
-- ${timestamp} - Time of the log call
-- ${caller} - The place where the log was called
-- ${l} - Literal
+- `${level}` - Log level
+- `${name}` - Log name
+- `${content}` - Log message
+- `${timestamp}` - Time of the log call
+- `${caller}` - The place where the log was called
+- `${l}` - Literal

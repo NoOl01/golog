@@ -1,0 +1,41 @@
+package pkg
+
+import (
+	"bytes"
+	"os"
+	"testing"
+	"time"
+
+	"github.com/NoOl01/velog/pkg/velog"
+	"github.com/NoOl01/velog/pkg/velog/velog_config"
+)
+
+func TestLoggerIntegration(t *testing.T) {
+	oldStdout := os.Stdout
+	r, w, _ := os.Pipe()
+	os.Stdout = w
+	defer func() { os.Stdout = oldStdout }()
+
+	config := &velog_config.Config{
+		Format:  "${name} ${l} ${content} ${l} ${level} ${l}",
+		Literal: " | ",
+		Debug:   true,
+	}
+
+	log := velog.Start(config)
+	defer velog.Stop()
+
+	log.Info("TestLogger", "Hello World")
+	time.Sleep(1 * time.Second)
+	w.Close()
+
+	buf := new(bytes.Buffer)
+	buf.ReadFrom(r)
+
+	got := buf.String()
+	want := "TestLogger | Hello World | INFO | \n"
+
+	if got != want {
+		t.Errorf("integration test failed: got %q, want %q", got, want)
+	}
+}

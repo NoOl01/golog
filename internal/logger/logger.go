@@ -53,10 +53,9 @@ func (l *Logger) Log(name, msg string, level velog_config.LogLevel) {
 
 func (l *Logger) Info(name, msg string) { l.Log(name, msg, velog_config.INFO) }
 func (l *Logger) Debug(name, msg string) {
-	if !logger_config.ApiConfig.Debug {
-		return
+	if logger_config.ApiConfig.Debug {
+		l.Log(name, msg, velog_config.DEBUG)
 	}
-	l.Log(name, msg, velog_config.DEBUG)
 }
 func (l *Logger) Warn(name, msg string)  { l.Log(name, msg, velog_config.WARNING) }
 func (l *Logger) Error(name, msg string) { l.Log(name, msg, velog_config.ERROR) }
