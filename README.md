@@ -26,7 +26,10 @@ go get github.com/NoOl01/velog
 ```
 package main
 
-import "github.com/NoOl01/velog/pkg/velog"
+import (
+    "github.com/NoOl01/velog/pkg/velog"
+	"github.com/NoOl01/velog/pkg/velog/velog_config"
+)
 
 func main() {
     config := &velog_config.Config{
@@ -36,7 +39,7 @@ func main() {
     log := velog.Start(config)
     defer velog.Stop()
     
-    log.Info("test", "hellow world")
+    log.Info("test", "hello world")
 }
 ```
 
