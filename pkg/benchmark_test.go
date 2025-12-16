@@ -3,8 +3,8 @@ package pkg
 import (
 	"testing"
 
-	"github.com/NoOl01/velog/pkg/velog"
-	"github.com/NoOl01/velog/pkg/velog/velog_config"
+	"github.com/nool01/velog/pkg/velog"
+	"github.com/nool01/velog/pkg/velog/velog_config"
 )
 
 func BenchmarkLogToConsole(b *testing.B) {

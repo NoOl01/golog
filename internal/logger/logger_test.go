@@ -5,11 +5,11 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/NoOl01/velog/internal/buffer"
-	"github.com/NoOl01/velog/internal/format"
-	"github.com/NoOl01/velog/internal/logger/console_logger"
-	"github.com/NoOl01/velog/internal/logger_config"
-	"github.com/NoOl01/velog/pkg/velog/velog_config"
+	"github.com/nool01/velog/internal/buffer"
+	"github.com/nool01/velog/internal/format"
+	"github.com/nool01/velog/internal/logger/console_logger"
+	"github.com/nool01/velog/internal/logger_config"
+	"github.com/nool01/velog/pkg/velog/velog_config"
 )
 
 func TestLogger_Log(t *testing.T) {

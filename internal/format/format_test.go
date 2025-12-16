@@ -5,8 +5,8 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/NoOl01/velog/internal/logger_config"
-	"github.com/NoOl01/velog/pkg/velog/velog_errs"
+	"github.com/nool01/velog/internal/logger_config"
+	"github.com/nool01/velog/pkg/velog/velog_errs"
 )
 
 func TestParseFormat(t *testing.T) {

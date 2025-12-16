@@ -16,7 +16,7 @@ Lightweight and fast logger for Go with flexible formatting support
 ## Installation
 
 ```
-go get github.com/NoOl01/velog
+go get github.com/nool01/velog
 ```
 
 ## Quick start
@@ -27,8 +27,8 @@ go get github.com/NoOl01/velog
 package main
 
 import (
-    "github.com/NoOl01/velog/pkg/velog"
-	"github.com/NoOl01/velog/pkg/velog/velog_config"
+    "github.com/nool01/velog/pkg/velog"
+	"github.com/nool01/velog/pkg/velog/velog_config"
 )
 
 func main() {

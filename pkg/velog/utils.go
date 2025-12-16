@@ -1,11 +1,11 @@
 package velog
 
 import (
-	"github.com/NoOl01/velog/internal/format"
-	logger2 "github.com/NoOl01/velog/internal/logger"
-	"github.com/NoOl01/velog/internal/logger/console_logger"
-	"github.com/NoOl01/velog/internal/logger_config"
-	"github.com/NoOl01/velog/pkg/velog/velog_config"
+	"github.com/nool01/velog/internal/format"
+	logger2 "github.com/nool01/velog/internal/logger"
+	"github.com/nool01/velog/internal/logger/console_logger"
+	"github.com/nool01/velog/internal/logger_config"
+	"github.com/nool01/velog/pkg/velog/velog_config"
 )
 
 type DefaultLogger interface {

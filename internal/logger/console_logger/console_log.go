@@ -7,7 +7,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/NoOl01/velog/internal/buffer"
+	"github.com/nool01/velog/internal/buffer"
 )
 
 var (
