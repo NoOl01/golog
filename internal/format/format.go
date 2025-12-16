@@ -7,16 +7,16 @@ import (
 
 	"github.com/NoOl01/velog/internal/logger_config"
 	"github.com/NoOl01/velog/internal/tokens"
-	"github.com/NoOl01/velog/pkg/golog/golog_config"
-	"github.com/NoOl01/velog/pkg/golog/golog_errs"
+	"github.com/NoOl01/velog/pkg/velog/velog_config"
+	"github.com/NoOl01/velog/pkg/velog/velog_errs"
 )
 
-var LevelToBytes = map[golog_config.LogLevel][]byte{
-	golog_config.INFO:    []byte("INFO"),
-	golog_config.WARNING: []byte("WARNING"),
-	golog_config.ERROR:   []byte("ERROR"),
-	golog_config.DEBUG:   []byte("DEBUG"),
-	golog_config.PANIC:   []byte("PANIC"),
+var LevelToBytes = map[velog_config.LogLevel][]byte{
+	velog_config.INFO:    []byte("INFO"),
+	velog_config.WARNING: []byte("WARNING"),
+	velog_config.ERROR:   []byte("ERROR"),
+	velog_config.DEBUG:   []byte("DEBUG"),
+	velog_config.PANIC:   []byte("PANIC"),
 }
 
 var L = map[string][]byte{}
@@ -63,7 +63,7 @@ func ParseFormat(format string, logFormat *LogFormat) error {
 		case "l":
 			*logFormat = append(*logFormat, tokens.TokenLiteral)
 		default:
-			return golog_errs.UnknownFormat
+			return velog_errs.UnknownFormat
 		}
 	}
 

@@ -1,6 +1,6 @@
 package logger_config
 
-import "github.com/NoOl01/velog/pkg/golog/golog_config"
+import "github.com/NoOl01/velog/pkg/velog/velog_config"
 
 type LoggerFunc struct {
 	Timestamp bool
@@ -8,4 +8,4 @@ type LoggerFunc struct {
 }
 
 var LoggerFuncConfig *LoggerFunc
-var ApiConfig *golog_config.Config
+var ApiConfig *velog_config.Config

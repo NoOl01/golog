@@ -3,13 +3,13 @@ package velog
 import (
 	"testing"
 
-	"github.com/NoOl01/golog/internal/format"
-	"github.com/NoOl01/golog/internal/logger"
-	"github.com/NoOl01/golog/pkg/golog/golog_config"
+	"github.com/NoOl01/velog/internal/format"
+	"github.com/NoOl01/velog/internal/logger"
+	"github.com/NoOl01/velog/pkg/velog/velog_config"
 )
 
 func BenchmarkLogToConsole(b *testing.B) {
-	config := &golog_config.Config{
+	config := &velog_config.Config{
 		Format:  "${name} ${l} ${content} ${l} ${level} ${l} ${timestamp} ${l} ${caller}",
 		Literal: " || ",
 	}

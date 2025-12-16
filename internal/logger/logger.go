@@ -8,12 +8,12 @@ import (
 	"github.com/NoOl01/velog/internal/logger_config"
 	"github.com/NoOl01/velog/internal/tokens"
 	"github.com/NoOl01/velog/internal/unsafe_conv"
-	"github.com/NoOl01/velog/pkg/golog/golog_config"
+	"github.com/NoOl01/velog/pkg/velog/velog_config"
 )
 
 type Logger struct{}
 
-func (l *Logger) Log(name, msg string, level golog_config.LogLevel) {
+func (l *Logger) Log(name, msg string, level velog_config.LogLevel) {
 	buf := buffer.GetBuffer()
 
 	data := log_data.LogData{
@@ -51,13 +51,13 @@ func (l *Logger) Log(name, msg string, level golog_config.LogLevel) {
 	}
 }
 
-func (l *Logger) Info(name, msg string) { l.Log(name, msg, golog_config.INFO) }
+func (l *Logger) Info(name, msg string) { l.Log(name, msg, velog_config.INFO) }
 func (l *Logger) Debug(name, msg string) {
 	if !logger_config.ApiConfig.Debug {
 		return
 	}
-	l.Log(name, msg, golog_config.DEBUG)
+	l.Log(name, msg, velog_config.DEBUG)
 }
-func (l *Logger) Warn(name, msg string)  { l.Log(name, msg, golog_config.WARNING) }
-func (l *Logger) Error(name, msg string) { l.Log(name, msg, golog_config.ERROR) }
-func (l *Logger) Panic(name, msg string) { l.Log(name, msg, golog_config.PANIC) }
+func (l *Logger) Warn(name, msg string)  { l.Log(name, msg, velog_config.WARNING) }
+func (l *Logger) Error(name, msg string) { l.Log(name, msg, velog_config.ERROR) }
+func (l *Logger) Panic(name, msg string) { l.Log(name, msg, velog_config.PANIC) }
